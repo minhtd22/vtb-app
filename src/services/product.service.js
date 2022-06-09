@@ -1,7 +1,7 @@
 import axios from 'axios';
 import authHeader from './auth-header';
 
-const API_URL = 'https://mighty-thicket-69286.herokuapp.com/api/products/';
+const API_URL = 'https://vietinbank-server.herokuapp.com/api/products/';
 
 const getAllProducts = (limit, offset, userId, customerName) => {
   return axios.get(
