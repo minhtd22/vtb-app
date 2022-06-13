@@ -1,7 +1,9 @@
 import axios from 'axios';
 import authHeader from './auth-header';
 
-const API_URL = `${process.env.REACT_APP_API_URL_DEV}/products/` || 'https://vietinbank-server.herokuapp.com/api/products/';
+const API_URL = process.env.REACT_APP_API_URL_DEV ? 
+  `${process.env.REACT_APP_API_URL_DEV}/products/` :
+  'https://vietinbank-server.herokuapp.com/api/products/';
 
 const getAllProducts = (limit, offset, userId, customerName) => {
   return axios.get(
