@@ -21,6 +21,11 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
+    // Change zoom level on mount
+    if (window.innerWidth <= 500) {
+      document.body.style.zoom = "45%";
+    }
+
     const user = AuthService.getCurrentUser();
     
     if (user) {
@@ -52,7 +57,7 @@ function App() {
     <Router>
       <div className="App">
         <nav className="navbar navbar-expand-lg navbar-light fixed-top">
-          <div className="container">
+          <div className="container-wrapper">
             <Link className="navbar-brand" to={'/'}>
               <img className="responsive-img" alt="logo" width={165} height={60} src={myImage}></img>
             </Link>
@@ -60,23 +65,19 @@ function App() {
               <ul className="navbar-nav ml-auto">
                 {currentUser ?
                   <>
-                    {
-                      <div className="navbar-text-product">
-                        {
-                          isAdmin && 
-                          <li className="nav-item nav-item-login">
-                            <Link className="nav-link" to={'/users'} >
-                              Cán bộ
-                            </Link>
-                          </li>
-                        }
+                      {
+                        isAdmin && 
                         <li className="nav-item nav-item-login">
-                          <Link className="nav-link" to={'/products'} >
-                            Sản phẩm dịch vụ
+                          <Link className="nav-link" to={'/users'} >
+                            Cán bộ
                           </Link>
                         </li>
-                      </div>
-                    }
+                      }
+                      <li className="nav-item nav-item-login">
+                        <Link className="nav-link" to={'/products'} >
+                          Sản phẩm dịch vụ
+                        </Link>
+                      </li>
                     <li className="nav-item nav-item-login">
                       <Link className="nav-link" to={'/profile'} >
                         {currentUser.username}

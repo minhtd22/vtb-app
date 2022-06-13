@@ -19,6 +19,9 @@ body, html, .App, #root, .auth-wrapper {
   width: 100%;
   height: 100%;
 }
+.navbar {
+ display: inherit !important; 
+}
 .navbar-light {
   background-color: #ffffff;
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
@@ -27,7 +30,7 @@ body, html, .App, #root, .auth-wrapper {
   flex-direction: row !important;
 }
 .nav-item-login {
-  margin-right: 20px;
+  margin-right: 45px;
   font-weight: 600;
 }
 .nav-link:hover {
@@ -92,18 +95,21 @@ body, html, .App, #root, .auth-wrapper {
   margin-bottom: 30px;
   float: right; 
 }
-.navbar-text-product {
+.container-wrapper {
   display: flex;
-  left: 25%;
-  position: absolute;
+  margin: auto;
+  justify-content: space-around;
+  align-items: center;
 }
-@media screen and (max-width: 600px) { 
-  .responsive-img {
-    /* display: none */
+@media screen and (max-width: 576px) { 
+  /* .responsive-img {
     width: 85px;
     height: 30px;
+  } */
+  .container-wrapper {
+    display: block;
   }
-  .navbar-text-product {
-    left: 15%;
+  .navbar {
+    display: flex !important;
   }
 }
