@@ -199,9 +199,10 @@ const SignUp = () => {
 
       <Form.Item
         name="confirm"
-        label="Xác nhận"
+        label="Xác nhận mật khẩu"
         dependencies={['password']}
         hasFeedback
+        allowClear={false}
         rules={[
           {
             required: true,

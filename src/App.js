@@ -21,11 +21,6 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    // Change zoom level on mount
-    if (window.innerWidth <= 500) {
-      document.body.style.zoom = "45%";
-    }
-
     const user = AuthService.getCurrentUser();
     
     if (user) {
@@ -96,7 +91,7 @@ function App() {
                         Đăng nhập
                       </Link>
                     </li>
-                    <li className="nav-item">
+                    <li className="nav-item nav-item-login">
                       <Link className="nav-link" to={'/sign-up'}>
                         Đăng ký
                       </Link>
