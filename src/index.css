@@ -92,3 +92,18 @@ body, html, .App, #root, .auth-wrapper {
   margin-bottom: 30px;
   float: right; 
 }
+.navbar-text-product {
+  display: flex;
+  left: 25%;
+  position: absolute;
+}
+@media screen and (max-width: 600px) { 
+  .responsive-img {
+    /* display: none */
+    width: 85px;
+    height: 30px;
+  }
+  .navbar-text-product {
+    left: 15%;
+  }
+}

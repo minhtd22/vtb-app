@@ -1,10 +1,22 @@
-import { Input, Table, Button, Form, Modal, Select, DatePicker } from 'antd';
-import { Alert } from 'bootstrap';
+import React, { useEffect, useState } from 'react';
+import 'antd/dist/antd.min.css';
+import {
+  Form,
+  Input,
+  Table,
+  Typography,
+  Select,
+  Alert,
+  DatePicker,
+  Button,
+  Modal
+} from 'antd';
 import moment from 'moment';
-import React, { useState, useEffect } from 'react';
 
 import AuthService from '../services/auth.service';
 import ProductService from '../services/product.service';
+import { appConst } from '../constants/app.const';
+import EditableCell from './EditableCell';
 
 const Product = ({ getCurrentUser }) => {
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -13,7 +25,8 @@ const Product = ({ getCurrentUser }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [visible, setVisible] = useState(false);
-  const [form] = Form.useForm();
+  const [formEdit] = Form.useForm();
+  const [formRegister] = Form.useForm();
   const [customerName, setCustomerName] = useState('');
   const [cif, setCif] = useState('');
   const [customerInformation, setCustomerInformation] = useState('');
@@ -21,8 +34,143 @@ const Product = ({ getCurrentUser }) => {
   const [productName, setProductName] = useState('');
   const [note, setNote] = useState('');
   const [date, setDate] = useState('');
+  const [editingKey, setEditingKey] = useState('');
   const { Option } = Select;
   const dateFormat = 'DD-MM-YYYY';
+
+  useEffect(() => {
+    const user = AuthService.getCurrentUser();
+
+    getCurrentUser(user);
+
+    if (user) {
+      setCurrentUser(user);
+      setIsAdmin(user.roles.includes('ROLE_ADMIN'));
+    }
+
+    fetchProducts();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const isEditing = (record) => record._id === editingKey;
+
+  const edit = (record) => {
+    formEdit.setFieldsValue({
+      customerName: '',
+      cif: '',
+      customerInformation: '',
+      note: '',
+      ...record,
+      dayAction: moment(record.dayAction, dateFormat),
+    });
+
+    setEditingKey(record._id);
+  };
+
+  const cancel = () => {
+    setEditingKey('');
+  };
+
+  const save = async (key) => {
+    try {
+      let row = await formEdit.validateFields();
+      row = {
+        ...row,
+        dayAction: moment(row.dayAction).format(dateFormat),
+      };
+
+      const newData = [...products.data];
+      const index = newData.findIndex((item) => key === item._id);
+
+      if (index > -1) {
+        const item = newData[index];
+        newData.splice(index, 1, { ...item, ...row });
+        const id = newData[index]._id;
+        
+        // Update product
+        await ProductService.updateProduct(id, newData[index]).then(() => {
+          fetchProducts();
+          setEditingKey('');
+        });
+      } else {
+        newData.push(row);
+        fetchProducts();
+        setEditingKey('');
+      }
+    } catch (errInfo) {
+      console.log('Validate Failed:', errInfo);
+    }
+  };
+
+  const editAction = [
+    {
+      title: 'Action',
+      dataIndex: 'Action',
+      render: (_, record) => {
+        const editable = isEditing(record);
+
+        return editable ? (
+          <span>
+            <Typography.Link
+              onClick={() => save(record._id)}
+              style={{
+                marginRight: 8,
+              }}
+            >
+              Save
+            </Typography.Link>
+            <Typography.Link onClick={cancel}>
+              Cancel
+            </Typography.Link>
+          </span>
+        ) : (
+          <Typography.Link disabled={editingKey !== '' || record.result === 'Hoàn thành'} onClick={() => edit(record)}>
+            Edit
+          </Typography.Link>
+        );
+      },
+    },
+  ];
+
+  const columnsWithActions = appConst.columns.concat(editAction);
+
+  const fetchProducts = async () => {
+    setIsLoading(true);
+
+    ProductService.getAllProducts(10000, 0).then(
+      (response) => {
+        setProducts(response.data);
+        setIsLoading(false);
+        setEditingKey('');
+      },
+      (error) => {
+        const _content =
+          (error.response && error.response.data) ||
+          error.message ||
+          error.toString();
+
+        setProducts(_content);
+      }
+    );
+  };
+
+
+  const mergedColumns = columnsWithActions.map((col) => {
+    if (!col.editable) {
+      return col;
+    }
+
+    return {
+      ...col,
+      onCell: (record) => ({
+        record,
+        inputType: 'text',
+        dataIndex: col.dataIndex,
+        title: col.title,
+        editing: isEditing(record),
+      }),
+    };
+  });
 
   const onChangeCustomerName = (e) => {
     const customerName = e.target.value;
@@ -53,13 +201,13 @@ const Product = ({ getCurrentUser }) => {
   };
 
   const onChangeDate = (date) => {
-    setDate(date);
+    setDate(moment(date).format(dateFormat));
   };
 
-  const disabledDate = (current) => {
-    // Can not select days before today and today
-    return current && current < moment().endOf('day');
-  };
+  // const disabledDate = (current) => {
+  //   // Can not select days before today and today
+  //   return current && current < moment().endOf('day');
+  // };
 
   const showModal = () => {
     setVisible(true);
@@ -77,9 +225,9 @@ const Product = ({ getCurrentUser }) => {
       dayAction,
     }
 
-    ProductService.creatProduct(data).then(() => {
+    ProductService.createProduct(data).then(() => {
       setVisible(false);
-      form.resetFields();
+      formRegister.resetFields();
       fetchProducts();
     }, 
     (error) => {
@@ -96,41 +244,8 @@ const Product = ({ getCurrentUser }) => {
 
   const handleCancel = () => {
     setVisible(false);
-    form.resetFields();
+    formRegister.resetFields();
   };
-
-  const fetchProducts = async () => {
-    setIsLoading(true);
-
-    ProductService.getAllProducts(10000, 0).then(
-      (response) => {
-        setProducts(response.data);
-        setIsLoading(false);
-      },
-      (error) => {
-        const _content =
-          (error.response && error.response.data) ||
-          error.message ||
-          error.toString();
-
-        setProducts(_content);
-      }
-    );
-  };
-
-  useEffect(() => {
-    const user = AuthService.getCurrentUser();
-
-    getCurrentUser(user);
-
-    if (user) {
-      setCurrentUser(user);
-      setIsAdmin(user.roles.includes('ROLE_ADMIN'));
-    }
-
-    fetchProducts();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const onSearchCustomerName = value => {
     ProductService.getAllProducts(undefined, undefined, undefined, value)
@@ -138,74 +253,6 @@ const Product = ({ getCurrentUser }) => {
         setProducts(response.data);
       })
   };
-
-  const columns = [
-    {
-      title: 'Cán bộ',
-      dataIndex: ['user', 'fullName'],
-      key: 'fullName',
-      render: (value) => <div style={{ fontWeight: 'bold' }}>{value}</div>
-    },
-    {
-      title: 'Mã Cán bộ',
-      dataIndex: ['user', 'userCode'],
-      key: 'userCode',
-    },
-    {
-      title: 'Phòng',
-      dataIndex: ['user', 'department'],
-      key: 'department',
-    },
-    {
-      title: 'Tên khách hàng',
-      dataIndex: 'customerName',
-      key: 'customerName',
-    },
-    {
-      title: 'CIF',
-      dataIndex: 'cif',
-      key: 'cif',
-    },
-    {
-      title: 'Thông tin KH',
-      dataIndex: 'customerInformation',
-      key: 'customerInformation',
-    },
-    {
-      title: 'Loại KH',
-      dataIndex: 'customerType',
-      key: 'customerType',
-    },
-    {
-      title: 'Sản phẩm DV',
-      dataIndex: 'productName',
-      key: 'productName',
-    },
-    {
-      title: 'Ngày đăng ký',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
-      render: (value) => {
-        const date = moment.utc(value).local().format('DD-MM-YYYY');
-        return date;
-      }
-    },
-    {
-      title: 'Ngày thực hiện',
-      dataIndex: 'dayAction',
-      key: 'dayAction',
-    },
-    {
-      title: 'Kết quả',
-      dataIndex: 'result',
-      key: 'result',
-    },
-    {
-      title: 'Ghi chú',
-      dataIndex: 'note',
-      key: 'note',
-    },
-  ];
 
   return (
     <div>
@@ -223,33 +270,36 @@ const Product = ({ getCurrentUser }) => {
           currentUser && isAdmin && 
           <Table
               dataSource={products.data}
-              columns={columns}
+              columns={appConst.columnsAdmin}
               rowKey={obj => obj._id}
               loading={isLoading}
+              size='small'
+              bordered={true}
           >
           </Table>
         }
         {
           // Render products of user
-          currentUser && !isAdmin && 
+          currentUser && !isAdmin &&
           <>
             <Button
               className="register-button"
               type="primary"
               onClick={showModal}
+              disabled={editingKey !== ''}
             >
               Đăng ký sản phẩm
             </Button>
             <Modal
               title="Thông tin đăng ký"
               visible={visible}
-              onOk={form.submit}
+              onOk={formRegister.submit}
               onCancel={handleCancel}
               okText="Đăng ký"
               cancelText="Huỷ"
             >
               <Form
-                form={form}
+                form={formRegister}
                 onFinish={handleSubmit}
                 name="basic"
                 labelCol={{
@@ -362,7 +412,7 @@ const Product = ({ getCurrentUser }) => {
                     },
                   ]}
                 >
-                  <DatePicker onChange={onChangeDate} format={dateFormat} placeholder="Chọn ngày" disabledDate={disabledDate} />
+                  <DatePicker onChange={onChangeDate} format={dateFormat} placeholder="Chọn ngày" />
                 </Form.Item>
 
                 <Form.Item
@@ -383,18 +433,28 @@ const Product = ({ getCurrentUser }) => {
                 </div>
               </Form>
             </Modal>
-            <Table
-                dataSource={products.data}
-                columns={columns}
+            <Form form={formEdit} component={false}>
+              <Table
+                components={{
+                  body: {
+                    cell: EditableCell,
+                  },
+                }}
                 rowKey={obj => obj._id}
-                loading={isLoading}
-            >
-            </Table>
+                bordered
+                dataSource={products.data}
+                columns={mergedColumns}
+                rowClassName="editable-row"
+                pagination={{
+                  onChange: cancel,
+                }}
+              />
+            </Form>
           </>
         }
       </div>
     </div>
-  )
+  );
 };
 
 export default Product;

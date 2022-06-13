@@ -17,7 +17,7 @@ const Login = () => {
   const [message, setMessage] = useState('');
 
   const onChangeUsername = (e) => {
-    const username = e.target.value;
+    const username = e.target.value.toLowerCase();
     setUsername(username);
   };
 

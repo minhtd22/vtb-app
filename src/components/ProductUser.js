@@ -1,7 +1,8 @@
 import { Input, Table } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { columns } from '../constants/constants';
+
+import { appConst } from '../constants/app.const';
 import ProductService from '../services/product.service';
 
 const ProductUser = () => {
@@ -48,10 +49,10 @@ const ProductUser = () => {
       <div>
           <Table
               dataSource={products.data}
-              columns={columns}
+              columns={appConst.columnsAdmin}
               rowKey={obj => obj._id}
               loading={isLoading}
-              on
+              bordered={true}
           >
           </Table>
       </div>

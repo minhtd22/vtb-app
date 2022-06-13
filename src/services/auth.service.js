@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://vietinbank-server.herokuapp.com/api/auth/';
+const API_URL = `${process.env.REACT_APP_API_URL_DEV}/auth/` || 'https://vietinbank-server.herokuapp.com/api/auth/';
 const signup = (username, fullName, email, userCode, department, password) => {
   const data = {
     username,

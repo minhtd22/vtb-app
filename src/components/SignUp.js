@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Input, Button, Alert, Select } from 'antd';
+
 import AuthService from '../services/auth.service';
 import UserSignupModal from './UserSignupModal';
 
@@ -18,7 +19,7 @@ const SignUp = () => {
   const { Option } = Select;
 
   const onChangeUsername = (e) => {
-    const username = e.target.value;
+    const username = e.target.value.toLowerCase();
     setUsername(username);
   };
 

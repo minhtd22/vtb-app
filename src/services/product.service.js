@@ -1,7 +1,7 @@
 import axios from 'axios';
 import authHeader from './auth-header';
 
-const API_URL = 'https://vietinbank-server.herokuapp.com/api/products/';
+const API_URL = `${process.env.REACT_APP_API_URL_DEV}/products/` || 'https://vietinbank-server.herokuapp.com/api/products/';
 
 const getAllProducts = (limit, offset, userId, customerName) => {
   return axios.get(
@@ -17,7 +17,7 @@ const getAllProducts = (limit, offset, userId, customerName) => {
     });
 };
 
-const creatProduct = (data) => {
+const createProduct = (data) => {
   return axios.post(
     API_URL,
     data, 
@@ -27,9 +27,20 @@ const creatProduct = (data) => {
   );
 };
 
+const updateProduct = (id, data) => {
+  return axios.put(
+    API_URL + `${id}`,
+    data,
+    {
+      headers: authHeader(),
+    },
+  )
+}
+
 const ProductService = {
   getAllProducts,
-  creatProduct,
+  createProduct,
+  updateProduct,
 };
 
 export default ProductService;

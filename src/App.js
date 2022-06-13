@@ -54,14 +54,14 @@ function App() {
         <nav className="navbar navbar-expand-lg navbar-light fixed-top">
           <div className="container">
             <Link className="navbar-brand" to={'/'}>
-              <img alt="logo" width={165} height={60} src={myImage}></img>
+              <img className="responsive-img" alt="logo" width={165} height={60} src={myImage}></img>
             </Link>
             <div>
               <ul className="navbar-nav ml-auto">
                 {currentUser ?
                   <>
                     {
-                      <div style={{ display: 'flex', left: '25%', position: 'absolute' }}>
+                      <div className="navbar-text-product">
                         {
                           isAdmin && 
                           <li className="nav-item nav-item-login">

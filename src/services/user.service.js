@@ -1,7 +1,7 @@
 import axios from 'axios';
 import authHeader from './auth-header';
 
-const API_URL = 'https://vietinbank-server.herokuapp.com/api/users/';
+const API_URL = `${process.env.REACT_APP_API_URL_DEV}/users/` || 'https://vietinbank-server.herokuapp.com/api/users/';
 
 const getAllUsers = (username) => {
   return axios.get(API_URL,
