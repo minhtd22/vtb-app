@@ -112,6 +112,7 @@ const User = ({ getCurrentUser }) => {
               columns={columns}
               rowKey={obj => obj._id}
               loading={isLoading}
+              size='small'
           >
           </Table>
         }

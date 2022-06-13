@@ -23,7 +23,7 @@ const EditableCell = ({
           }}
           rules={[
             {
-              required: dataIndex === 'note' ? false : true,
+              required: dataIndex === 'note' || dataIndex === 'cif' ? false : true,
               message: `Vui lòng nhập ${title}!`,
             },
           ]}

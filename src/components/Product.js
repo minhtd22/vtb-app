@@ -214,7 +214,7 @@ const Product = ({ getCurrentUser }) => {
   };
 
   const handleSubmit = () => {
-    const dayAction = moment(date).format('DD-MM-YYYY');
+    const dayAction = date;
     const data = {
       customerName,
       cif,
@@ -448,6 +448,7 @@ const Product = ({ getCurrentUser }) => {
                 pagination={{
                   onChange: cancel,
                 }}
+                size='small'
               />
             </Form>
           </>

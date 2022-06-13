@@ -53,6 +53,7 @@ const ProductUser = () => {
               rowKey={obj => obj._id}
               loading={isLoading}
               bordered={true}
+              size='small'
           >
           </Table>
       </div>

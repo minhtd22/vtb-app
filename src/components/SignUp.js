@@ -202,7 +202,7 @@ const SignUp = () => {
         label="Xác nhận mật khẩu"
         dependencies={['password']}
         hasFeedback
-        allowClear={false}
+        allowclear="false"
         rules={[
           {
             required: true,

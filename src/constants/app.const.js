@@ -1,3 +1,4 @@
+import { Tooltip } from 'antd';
 import moment from 'moment';
 
 const columns = [
@@ -18,6 +19,16 @@ const columns = [
     dataIndex: 'customerInformation',
     key: 'customerInformation',
     editable: true,
+    ellipsis: {
+      showTitle: false,
+    },
+    render: (customerInformation) => (
+      <Tooltip placement="topLeft" title={customerInformation}>
+        <div>
+          {customerInformation}
+        </div>
+      </Tooltip>
+    ),
   },
   {
     title: 'Loại KH',
@@ -28,6 +39,16 @@ const columns = [
     title: 'Sản phẩm DV',
     dataIndex: 'productName',
     key: 'productName',
+    ellipsis: {
+      showTitle: false,
+    },
+    render: (productName) => (
+      <Tooltip placement="topLeft" title={productName}>
+        <div>
+          {productName}
+        </div>
+      </Tooltip>
+    ),
   },
   {
     title: 'Ngày đăng ký',
@@ -49,6 +70,7 @@ const columns = [
     dataIndex: 'note',
     key: 'note',
     editable: true,
+    ellipsis: true,
   },
   {
     title: 'Kết quả',
