@@ -40,6 +40,7 @@ function App() {
   const setUserRole = (data) => {
     setCurrentUser(data);
     setIsAdmin(data.roles.includes('ROLE_ADMIN'));
+    setIsLoggedIn(true);
   };
 
   const logOut = () => {
