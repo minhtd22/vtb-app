@@ -36,8 +36,8 @@ const EditableCell = ({
               <Option value='Chưa hoàn thành'>Chưa hoàn thành</Option>
             </Select> : 
             dataIndex === 'dayAction' ? 
-            <DatePicker format={dateFormat} allowClear={false} /> :
-            <Input />
+            <DatePicker format={dateFormat} allowClear={false} style={{ width: 'max-content' }} /> :
+            <Input style={{ width: 150 }}/>
           }
         </Form.Item>
       ) : (

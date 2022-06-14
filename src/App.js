@@ -6,6 +6,7 @@ import SignUp from './components/SignUp';
 import './App.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import myImage from './assets/images/logo.jpg';
+import myProfile from './assets/images/profile.png';
 import AuthService from './services/auth.service';
 import User from './components/User';
 import Profile from './components/Profile';
@@ -75,6 +76,7 @@ function App() {
                       </li>
                     <li className="nav-item nav-item-login">
                       <Link className="nav-link" to={'/profile'} >
+                        <img alt="profile" width={20} height={20} src={myProfile} style={{ marginRight: 3 }}></img>
                         {currentUser.username}
                       </Link>
                     </li>
