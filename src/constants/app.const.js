@@ -1,4 +1,3 @@
-import { Tooltip } from 'antd';
 import moment from 'moment';
 
 const columns = [
@@ -7,48 +6,33 @@ const columns = [
     title: 'Tên khách hàng',
     dataIndex: 'customerName',
     editable: true,
+    width: '10%',
   },
   {
     key: 'cif',
     title: 'CIF',
     dataIndex: 'cif',
     editable: true,
+    width: '10%',
   },
   {
     title: 'Thông tin KH',
     dataIndex: 'customerInformation',
     key: 'customerInformation',
     editable: true,
-    ellipsis: {
-      showTitle: false,
-    },
-    render: (customerInformation) => (
-      <Tooltip placement="topLeft" title={customerInformation}>
-        <div>
-          {customerInformation}
-        </div>
-      </Tooltip>
-    ),
+    width: '10%',
   },
   {
     title: 'Loại KH',
     dataIndex: 'customerType',
     key: 'customerType',
+    width: '10%',
   },
   {
     title: 'Sản phẩm DV',
     dataIndex: 'productName',
     key: 'productName',
-    ellipsis: {
-      showTitle: false,
-    },
-    render: (productName) => (
-      <Tooltip placement="topLeft" title={productName}>
-        <div>
-          {productName}
-        </div>
-      </Tooltip>
-    ),
+    width: '10%',
   },
   {
     title: 'Ngày đăng ký',
@@ -57,20 +41,22 @@ const columns = [
     render: (value) => {
       const date = moment.utc(value).local().format('DD-MM-YYYY');
       return date;
-    }
+    },
+    width: '10%',
   },
   {
     title: 'Ngày thực hiện',
     dataIndex: 'dayAction',
     key: 'dayAction',
     editable: true,
+    width: '10%',
   },
   {
     title: 'Ghi chú',
     dataIndex: 'note',
     key: 'note',
     editable: true,
-    ellipsis: true,
+    width: '10%',
   },
   {
     title: 'Kết quả',
@@ -84,6 +70,7 @@ const columns = [
       }
     },
     editable: true,
+    width: '10%',
   },
 ];
 
