@@ -5,8 +5,6 @@ const API_URL = process.env.REACT_APP_API_URL_DEV ?
   'https://vietinbank-server.herokuapp.com/api/password-reset/';
 
 const sendEmail = (data) => {
-
-  console.log('data', data);
   return axios.post(
     API_URL,
     data,
@@ -14,7 +12,6 @@ const sendEmail = (data) => {
 };
 
 const resetPassword = (userId, token, password) => {
-  console.log('password', password);
   return axios.post(
     API_URL + `${userId}/${token}`,
     {
