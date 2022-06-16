@@ -15,6 +15,9 @@ import ProductUser from './components/ProductUser';
 import AuthVerify from './common/AuthVerify';
 import { PrivateRoute } from './components/PrivateRoute';
 import Unauthorized from './components/Unauthorized';
+import NotFound from './components/NotFound';
+import ForgotPassword from './components/ForgotPassword';
+import PasswordReset from './components/PasswordReset';
 
 function App() {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -111,6 +114,10 @@ function App() {
               <Route exact path="/" element={isLoggedIn ? <Product getCurrentUser={getCurrentUser}/> : <Login />} />
               <Route path="/login" element={isLoggedIn ? <Product getCurrentUser={getCurrentUser} /> : <Login />} />
               <Route path="/sign-up" element={isLoggedIn ? <Product getCurrentUser={getCurrentUser} /> : <SignUp />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/password-reset/:userId/:token" element={<PasswordReset /> } />
+              <Route path='*' exact={true} element={<NotFound />} />
+
               <Route exact path='/' element={<PrivateRoute/>}>
                 <Route path="/users" element={isAdmin ? <User getCurrentUser={getCurrentUser} /> : <Unauthorized /> } />
                 <Route path="/products" element={<Product getCurrentUser={getCurrentUser} />} />

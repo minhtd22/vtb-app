@@ -428,6 +428,7 @@ const Product = ({ getCurrentUser }) => {
                       description={message}
                       type="error"
                       showIcon
+                      style={{ padding: '8px 15px' }}
                     />
                   )}
                 </div>

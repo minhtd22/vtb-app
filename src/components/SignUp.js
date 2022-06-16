@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Form, Input, Button, Alert, Select } from 'antd';
 
 import AuthService from '../services/auth.service';
-import UserSignupModal from './UserSignupModal';
+import UserModal from './UserModal';
 
 const SignUp = () => {
   let navigate = useNavigate();
@@ -119,12 +119,12 @@ const SignUp = () => {
           name="email"
           rules={[
             {
-              required: false,
-              message: "Vui lòng nhập email",
+              required: true,
+              message: "Vui lòng nhập email.",
             },
             {
               pattern: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-              message: "Invalid email format",
+              message: "Định dạng email không hợp lệ.",
             },
           ]}
         >
@@ -228,6 +228,7 @@ const SignUp = () => {
             description={message}
             type="error"
             showIcon
+            style={{ padding: '8px 15px' }}
           />
         )}
       </div>
@@ -244,7 +245,13 @@ const SignUp = () => {
       </Form.Item>
     </Form>
 
-    {isOpen && <UserSignupModal handleOk={() => navigate("/login")} />}
+    {isOpen && 
+      <UserModal
+        handleOk={() => navigate("/login")}
+        content={'Chúc mừng bạn đã đăng ký tài khoản thành công. Xin vui lòng đăng nhập!'}
+        okText={'Đăng nhập'}
+      />
+    }
 
     <p className="forgot-password text-right">
       Đã có tài khoản <a href="/login">Đăng nhập?</a>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Form, Input, Button, Checkbox, Alert } from 'antd';
 
 import AuthService from '../services/auth.service';
@@ -104,6 +104,7 @@ const Login = () => {
               description={message}
               type="error"
               showIcon
+              style={{ padding: '8px 15px' }}
             />
           )}
         </div>
@@ -114,14 +115,16 @@ const Login = () => {
           }}
         >
           <Button type="primary" htmlType="submit">
-            Submit
+            Đăng nhập
           </Button>
         </Form.Item>
       </Form>
 
-      {/* <p className="forgot-password text-right">
-        Forgot <a href="#">password?</a>
-      </p> */}
+      <div className="forgot-password text-right">
+        <Link className="nav-link" to={'/forgot-password'}>
+          Quên mật khẩu?
+        </Link>
+      </div>
     </div>
   );
 };

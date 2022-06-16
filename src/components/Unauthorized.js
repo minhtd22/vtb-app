@@ -1,11 +1,11 @@
 import React from 'react';
 
-const RegisterProduct = () => {
+const Unauthorized = () => {
   return (
-    <div>
-      Register page
-    </div>
+    <h3>
+      Unauthorized page
+    </h3>
   )
 };
 
-export default RegisterProduct;
+export default Unauthorized;

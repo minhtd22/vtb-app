@@ -75,24 +75,24 @@ const columns = [
 ];
 
 const columnsAdmin = [
-    {
-      title: 'Cán bộ',
-      dataIndex: ['user', 'fullName'],
-      key: 'fullName',
-      render: (value) => <div style={{ fontWeight: 'bold' }}>{value}</div>
-    },
-    {
-      title: 'Mã Cán bộ',
-      dataIndex: ['user', 'userCode'],
-      key: 'userCode',
-    },
-    {
-      title: 'Phòng',
-      dataIndex: ['user', 'department'],
-      key: 'department',
-    },
-    ...columns,
-  ];
+  {
+    title: 'Cán bộ',
+    dataIndex: ['user', 'fullName'],
+    key: 'fullName',
+    render: (value) => <div style={{ fontWeight: 'bold' }}>{value}</div>
+  },
+  {
+    title: 'Mã Cán bộ',
+    dataIndex: ['user', 'userCode'],
+    key: 'userCode',
+  },
+  {
+    title: 'Phòng',
+    dataIndex: ['user', 'department'],
+    key: 'department',
+  },
+  ...columns,
+];
 
 export const appConst = {
   columns,

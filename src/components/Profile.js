@@ -165,16 +165,17 @@ const Profile = () => {
               description={message}
               type="error"
               showIcon
+              style={{ padding: '8px 15px' }}
             />
           )}
         </div>
 
         {isUpdated && (
           <Alert
-            description={"Bạn đã cập nhật thành công!"}
-            type="success"
+            description={'Bạn đã cập nhật thành công!'}
+            type='success'
             showIcon
-            style={{ marginBottom: '20px' }}
+            style={{ marginBottom: '20px', padding: '8px 15px' }}
           />
         )}
 
