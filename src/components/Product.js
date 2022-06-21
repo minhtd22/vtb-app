@@ -440,6 +440,7 @@ const Product = ({ getCurrentUser }) => {
                   onChange: cancel,
                 }}
                 size='small'
+                loading={isLoading}
               />
             </Form>
           </>
