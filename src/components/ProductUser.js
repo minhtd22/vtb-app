@@ -1,9 +1,10 @@
-import { Input, Table } from 'antd';
+import { Table } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { appConst } from '../constants/app.const';
 import ProductService from '../services/product.service';
+import CustomSearch from './CustomSearch';
 
 const ProductUser = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -29,22 +30,16 @@ const ProductUser = () => {
     );
   }, [id]);
 
-  const onSearchCustomerName = value => {
-    ProductService.getAllProducts(undefined, undefined, undefined, value)
+  const filterProducts = (searchName, searchValue) => {
+    ProductService.getAllProducts(undefined, undefined, undefined, searchName, searchValue)
       .then(response => {
         setProducts(response.data);
-      })
+      });
   };
 
   return (
     <div>
-      <div className='search-user'>
-        <Input.Search
-          placeholder="Nhập tìm kiếm khách hàng"
-          onSearch={onSearchCustomerName}
-          enterButton
-        />
-      </div>
+      <CustomSearch filterProducts={filterProducts} />
 
       <div>
           <Table

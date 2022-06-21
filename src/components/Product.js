@@ -17,6 +17,7 @@ import AuthService from '../services/auth.service';
 import ProductService from '../services/product.service';
 import { appConst } from '../constants/app.const';
 import EditableCell from './EditableCell';
+import CustomSearch from './CustomSearch';
 
 const Product = ({ getCurrentUser }) => {
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -134,7 +135,7 @@ const Product = ({ getCurrentUser }) => {
 
   const columnsWithActions = appConst.columns.concat(editAction);
 
-  const fetchProducts = async () => {
+  const fetchProducts = () => {
     setIsLoading(true);
 
     ProductService.getAllProducts(10000, 0).then(
@@ -204,10 +205,12 @@ const Product = ({ getCurrentUser }) => {
     setDate(moment(date).format(dateFormat));
   };
 
-  // const disabledDate = (current) => {
-  //   // Can not select days before today and today
-  //   return current && current < moment().endOf('day');
-  // };
+  const filterProducts = (searchName, searchValue) => {
+    ProductService.getAllProducts(undefined, undefined, undefined, searchName, searchValue)
+      .then(response => {
+        setProducts(response.data);
+      });
+  };
 
   const showModal = () => {
     setVisible(true);
@@ -247,22 +250,9 @@ const Product = ({ getCurrentUser }) => {
     formRegister.resetFields();
   };
 
-  const onSearchCustomerName = value => {
-    ProductService.getAllProducts(undefined, undefined, undefined, value)
-      .then(response => {
-        setProducts(response.data);
-      })
-  };
-
   return (
     <div>
-      <div className='search-user'>
-        <Input.Search
-          placeholder="Nhập tìm kiếm khách hàng"
-          onSearch={onSearchCustomerName}
-          enterButton
-        />
-      </div>
+      <CustomSearch filterProducts={filterProducts} isEdit={editingKey !== ''}/>
 
       <div>
         {

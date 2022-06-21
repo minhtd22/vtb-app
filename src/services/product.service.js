@@ -5,7 +5,7 @@ const API_URL = process.env.REACT_APP_API_URL_DEV ?
   `${process.env.REACT_APP_API_URL_DEV}/products/` :
   'https://vietinbank-server.herokuapp.com/api/products/';
 
-const getAllProducts = (limit, offset, userId, customerName) => {
+const getAllProducts = (limit, offset, userId, customerName, result) => {
   return axios.get(
     API_URL,
     {
@@ -15,6 +15,7 @@ const getAllProducts = (limit, offset, userId, customerName) => {
         page: offset,
         userId,
         customerName,
+        result,
       },
     });
 };

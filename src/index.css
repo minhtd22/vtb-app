@@ -86,7 +86,7 @@ body, html, .App, #root, .auth-wrapper {
   margin-bottom: 15px;
 }
 .search-user {
-  width: 300px;
+  width: 65%;
   display: flex;
   margin: auto;
   margin-bottom: 30px;
